@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="va">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,6 +34,492 @@
     color: white; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600;
   }
   .nav-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; letter-spacing: -0.3px; color: var(--text); }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-link {
+    padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 400;
+    color: var(--text-muted); cursor: pointer; transition: all 0.15s; border: none; background: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-link:hover { background: var(--bg-secondary); color: var(--text); }
+  .nav-link.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  #login-overlay {
+    position: fixed; inset: 0; background: rgba(255,255,255,0.97);
+    display: none; align-items: center; justify-content: center; z-index: 999;
+  }
+  #login-overlay.visible { display: flex; }
+  .login-card {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 18px;
+    padding: 2.5rem; width: 360px; text-align: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  }
+  .login-logo-img { width: 96px; height: 96px; object-fit: contain; margin: 0 auto 1.25rem; display: block; }
+  .login-logo-fallback {
+    width: 96px; height: 96px; border-radius: 50%; background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 600;
+    margin: 0 auto 1.25rem;
+  }
+  .login-card h2 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 4px; }
+  .login-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 1.75rem; }
+  .login-card input {
+    width: 100%; padding: 11px 14px; border: 1px solid var(--border);
+    border-radius: var(--radius); font-size: 15px; font-family: 'DM Sans', sans-serif;
+    outline: none; margin-bottom: 12px; transition: border-color 0.15s; color: var(--text);
+  }
+  .login-card input:focus { border-color: var(--accent); }
+  .btn-primary {
+    width: 100%; padding: 11px; background: var(--accent); color: white;
+    border: none; border-radius: var(--radius); font-size: 15px;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-dark); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+  .login-error { font-size: 13px; color: var(--accent); margin-top: 10px; min-height: 18px; }
+  .btn-back {
+    margin-top: 12px; background: none; border: none; color: var(--text-muted);
+    font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  }
+  .btn-back:hover { color: var(--text); }
+
+  .home-hero { padding: 4.5rem 2rem 3rem; text-align: center; max-width: 640px; margin: 0 auto; }
+  .hero-logo-img { width: 120px; height: 120px; object-fit: contain; margin: 0 auto 1.5rem; display: block; }
+  .hero-logo-fallback {
+    width: 112px; height: 112px; border-radius: 50%; background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 600;
+    margin: 0 auto 1.5rem;
+  }
+  .home-hero h1 { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 600; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 1rem; }
+  .home-hero h1 span { color: var(--accent); }
+  .home-hero p { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; }
+  .home-divider { width: 48px; height: 2px; background: var(--accent); margin: 0 auto 2rem; border-radius: 2px; }
+  .home-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; max-width: 700px; margin: 0 auto; padding: 0 2rem 5rem; }
+  .home-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; text-align: left; cursor: pointer; transition: all 0.18s; }
+  .home-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(192,57,43,0.1); }
+  .card-icon { font-size: 26px; margin-bottom: 12px; }
+  .home-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .home-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+  .calendar-page { max-width: 920px; margin: 0 auto; padding: 2rem; }
+  .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; }
+  .calendar-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; text-transform: capitalize; }
+  .cal-nav { display: flex; align-items: center; gap: 8px; }
+  .cal-btn { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 8px; background: none; cursor: pointer; font-size: 18px; color: var(--text-muted); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .cal-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-new-event { padding: 8px 18px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.15s; }
+  .btn-new-event:hover { background: var(--accent-dark); }
+  .cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 2px; }
+  .cal-day-name { text-align: center; font-size: 11px; font-weight: 500; color: var(--text-muted); padding: 8px 0; text-transform: uppercase; letter-spacing: 0.6px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .cal-cell { background: var(--bg); min-height: 108px; padding: 8px; cursor: pointer; transition: background 0.1s; }
+  .cal-cell:hover { background: #fdf5f5; }
+  .cal-cell.other-month { background: #fafafa; }
+  .cal-cell.other-month .cal-day-num { color: #ccc; }
+  .cal-cell.today .cal-day-num { background: var(--accent); color: white; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
+  .cal-day-num { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
+  .cal-event { font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+  .cal-more { font-size: 11px; color: var(--text-muted); padding: 1px 4px; }
+
+  .anuncios-page { max-width: 720px; margin: 0 auto; padding: 2rem; }
+  .anuncios-page h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 6px; }
+  .anuncios-page .subtitle { color: var(--text-muted); font-size: 15px; margin-bottom: 2rem; }
+  .empty-state { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 14px; padding: 3rem; text-align: center; color: var(--text-muted); }
+  .empty-state .empty-icon { font-size: 36px; margin-bottom: 1rem; }
+
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: center; justify-content: center; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: var(--bg); border-radius: 18px; padding: 2rem; width: 440px; max-width: 95vw; box-shadow: 0 12px 48px rgba(0,0,0,0.22); }
+  .modal h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 1.25rem; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
+  .form-group input, .form-group textarea { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.15s; background: var(--bg); color: var(--text); }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .color-swatch { width: 28px; height: 28px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; }
+  .color-swatch.selected { border-color: #1a1a1a; transform: scale(1.18); }
+  .modal-actions { display: flex; gap: 10px; margin-top: 1.25rem; }
+  .btn-cancel { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: none; font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.15s; color: var(--text); }
+  .btn-cancel:hover { background: var(--bg-secondary); }
+  .btn-save { flex: 2; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.15s; }
+  .btn-save:hover { background: var(--accent-dark); }
+  .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #1a1a1a; color: white; padding: 10px 18px; border-radius: 8px; font-size: 14px; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 9999; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     CONFIGURACIÓN — edita estas líneas
+     ══════════════════════════════════════ -->
+<script>
+  const SUPABASE_URL   = 'https://pcimeutiysrsaptadpge.supabase.co';       // Ej: https://abcdef.supabase.co
+  const SUPABASE_ANON  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjaW1ldXRpeXNyc2FwdGFkcGdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNTY2NzUsImV4cCI6MjA5MzgzMjY3NX0.W5V7UooJcDhzy-mvY6_WoiNP5pJJ3QgAVxCLEHQ__AM';  // Solo la anon/public key
+  const LOGO_URL       = 'logo-flv.png';               // Ruta al logo (mismo directorio) o URL de Supabase Storage
+  const EVENTS_TABLE   = 'events';
+</script>
+<!-- ════════════════════════════════════ -->
+
+<div id="login-overlay">
+  <div class="login-card">
+    <div id="login-logo-wrap"></div>
+    <h2>Àrea de comissió</h2>
+    <p class="login-subtitle">Introduïx la contrasenya per a accedir al calendari</p>
+    <input type="email" id="login-email" value="guille.flvb@gmail.com" autocomplete="email" style="display: none;" />
+    <input type="password" id="login-pass" placeholder="Contrasenya" autocomplete="current-password" />
+    <button class="btn-primary" id="login-btn" onclick="handleLogin()">Entrar</button>
+    <p class="login-error" id="login-error"></p>
+    <button class="btn-back" onclick="cancelLogin()">← Tornar a l'inici</button>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-brand" onclick="navHome()">
+    <div id="nav-logo-wrap"></div>
+    <span class="nav-title">Falla La Verge</span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" id="nav-inicio" onclick="navHome()">Inici</button>
+    <button class="nav-link" id="nav-cal" onclick="navCalendar()">Calendari</button>
+    <button class="nav-link" id="nav-tablon" onclick="showPage('anuncios','nav-tablon')">Tauló</button>
+  </div>
+</nav>
+
+<div id="page-home" class="page active">
+  <div class="home-hero">
+    <div id="hero-logo-wrap"></div>
+    <h1>Benvinguts a<br><span>Falla La Verge</span></h1>
+    <div class="home-divider"></div>
+    <p>L'espai digital de la nostra comissió. Consulta esdeveniments, anuncis i tota la informació de la falla.<br>Visca la Falla La Verge de Benifaió! 🔥</p>
+  </div>
+  <div class="home-cards">
+    <div class="home-card" onclick="navCalendar()">
+      <div class="card-icon">📅</div>
+      <h3>Calendari</h3>
+      <p>Tots els actes i reunions de l'any</p>
+    </div>
+    <div class="home-card" onclick="showPage('anuncios','nav-tablon')">
+      <div class="card-icon">📋</div>
+      <h3>Tauló d'anuncis</h3>
+      <p>Avisos i novetats de la comissió</p>
+    </div>
+    <div class="home-card">
+      <div class="card-icon">🔥</div>
+      <h3>La Falla</h3>
+      <p>Pròximament més informació</p>
+    </div>
+  </div>
+</div>
+
+<div id="page-calendar" class="page">
+  <div class="calendar-page">
+    <div class="calendar-header">
+      <span class="calendar-title" id="cal-month-title"></span>
+      <div class="cal-nav">
+        <button class="cal-btn" onclick="changeMonth(-1)">&#8249;</button>
+        <button class="cal-btn" onclick="changeMonth(1)">&#8250;</button>
+        <button class="btn-new-event" onclick="openNewEventModal()">+ Nou esdeveniment</button>
+      </div>
+    </div>
+    <div class="cal-grid-header">
+      <div class="cal-day-name">Dll</div><div class="cal-day-name">Dmt</div>
+      <div class="cal-day-name">Dmc</div><div class="cal-day-name">Dij</div>
+      <div class="cal-day-name">Div</div><div class="cal-day-name">Dis</div>
+      <div class="cal-day-name">Diu</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+</div>
+
+<div id="page-anuncios" class="page">
+  <div class="anuncios-page">
+    <h2>Tauló d'anuncis</h2>
+    <p class="subtitle">Avisos i comunicats de la comissió</p>
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <p>El tauló d'anuncis estarà disponible pròximament.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="event-modal">
+  <div class="modal">
+    <h3>Nou esdeveniment</h3>
+    <div class="form-group">
+      <label>Títol *</label>
+      <input type="text" id="ev-title" placeholder="Ex: Reunió de comissió" />
+    </div>
+    <div class="form-group">
+      <label>Descripció</label>
+      <textarea id="ev-desc" rows="2" placeholder="Detalls de l'esdeveniment..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Data *</label>
+      <input type="date" id="ev-date" />
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Hora inici</label><input type="time" id="ev-start" /></div>
+      <div class="form-group"><label>Hora fi</label><input type="time" id="ev-end" /></div>
+    </div>
+    <div class="form-group">
+      <label>Color de l'esdeveniment</label>
+      <div class="form-color-row" id="color-swatches"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel·lar</button>
+      <button class="btn-save" id="save-btn" onclick="saveEvent()">Guardar esdeveniment</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Inicializar cliente Supabase
+  let supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  const COLORS = [
+    { hex: '#c0392b', name: 'Roig' }, { hex: '#e67e22', name: 'Taronja' },
+    { hex: '#f39c12', name: 'Groc' }, { hex: '#27ae60', name: 'Verd' },
+    { hex: '#2980b9', name: 'Blau' }, { hex: '#8e44ad', name: 'Morat' },
+    { hex: '#7f8c8d', name: 'Gris' },
+  ];
+  let selectedColor = COLORS[0].hex;
+  let events = [];
+  const now = new Date();
+  let currentYear = now.getFullYear();
+  let currentMonth = now.getMonth();
+
+  /* ── Logos ── */
+  function renderLogos() {
+    function createLogo(containerId, imgClass) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      if (LOGO_URL) {
+        const img = document.createElement('img');
+        img.className = imgClass;
+        img.src = LOGO_URL;
+        img.alt = 'Logo';
+        img.onerror = function() {
+          const fallback = document.createElement('div');
+          fallback.className = imgClass.replace('img', 'fallback');
+          fallback.textContent = 'F';
+          container.innerHTML = '';
+          container.appendChild(fallback);
+        };
+        container.appendChild(img);
+      } else {
+        const fallback = document.createElement('div');
+        fallback.className = imgClass.replace('img', 'fallback');
+        fallback.textContent = 'F';
+        container.appendChild(fallback);
+      }
+    }
+    
+    createLogo('login-logo-wrap', 'login-logo-img');
+    createLogo('nav-logo-wrap', 'nav-logo-img');
+    createLogo('hero-logo-wrap', 'hero-logo-img');
+  }
+
+  /* ── Navegación ── */
+  function navHome() { showPage('home', 'nav-inicio'); }
+
+  async function navCalendar() {
+    try {
+      const res = await supabaseClient.auth.getSession();
+      if (res.data && res.data.session) {
+        await loadEvents();
+        showPage('calendar', 'nav-cal');
+      } else {
+        document.getElementById('login-overlay').classList.add('visible');
+        document.getElementById('login-pass').value  = '';
+        document.getElementById('login-error').textContent = '';
+        setTimeout(function(){ document.getElementById('login-pass').focus(); }, 60);
+      }
+    } catch(e) {
+      document.getElementById('login-overlay').classList.add('visible');
+    }
+  }
+
+  function cancelLogin() {
+    document.getElementById('login-overlay').classList.remove('visible');
+    showPage('home', 'nav-inicio');
+  }
+
+  function showPage(id, navId) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(function(l){ l.classList.remove('active'); });
+    if (navId) document.getElementById(navId).classList.add('active');
+  }
+
+  /* ── Auth ── */
+  async function handleLogin() {
+    const email = 'guille.flvb@gmail.com';
+    const pass  = document.getElementById('login-pass').value;
+    const err   = document.getElementById('login-error');
+    const btn   = document.getElementById('login-btn');
+    if (!pass) { err.textContent = 'Introduïx la contrasenya'; return; }
+    btn.disabled = true; btn.textContent = 'Comprovant...'; err.textContent = '';
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email: email, password: pass });
+      if (error) throw error;
+      document.getElementById('login-overlay').classList.remove('visible');
+      await loadEvents();
+      showPage('calendar', 'nav-cal');
+    } catch(e) {
+      err.textContent = 'Credencials incorrectes';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Entrar';
+    }
+  }
+
+  document.getElementById('login-pass').addEventListener('keydown', function(e){ if (e.key === 'Enter') handleLogin(); });
+
+  /* ── Eventos ── */
+  async function loadEvents() {
+    const { data, error } = await supabaseClient.from(EVENTS_TABLE).select('*').order('date');
+    if (error) { showToast('Error al carregar esdeveniments'); return; }
+    events = data || [];
+    renderCalendar();
+  }
+
+  /* ── Calendario ── */
+  function changeMonth(d) {
+    currentMonth += d;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    if (currentMonth < 0)  { currentMonth = 11; currentYear--; }
+    renderCalendar();
+  }
+
+  function renderCalendar() {
+    const MONTHS = ['gener','febrer','març','abril','maig','juny','juliol','agost','setembre','octubre','novembre','desembre'];
+    document.getElementById('cal-month-title').textContent = MONTHS[currentMonth] + ' ' + currentYear;
+    const first = new Date(currentYear, currentMonth, 1);
+    let startDow = first.getDay();
+    startDow = startDow === 0 ? 6 : startDow - 1;
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const prevDays    = new Date(currentYear, currentMonth, 0).getDate();
+    const todayStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    const totalCells = Math.ceil((startDow + daysInMonth) / 7) * 7;
+    const grid = document.getElementById('cal-grid');
+    grid.innerHTML = '';
+    for (var i = 0; i < totalCells; i++) {
+      var cell = document.createElement('div'); cell.className = 'cal-cell';
+      var dayNum, dateStr, isOther = false;
+      if (i < startDow) {
+        dayNum = prevDays - startDow + 1 + i;
+        var m = currentMonth === 0 ? 12 : currentMonth;
+        var y = currentMonth === 0 ? currentYear - 1 : currentYear;
+        dateStr = y + '-' + String(m).padStart(2,'0') + '-' + String(dayNum).padStart(2,'0'); isOther = true;
+      } else if (i >= startDow + daysInMonth) {
+        dayNum = i - startDow - daysInMonth + 1;
+        var m2 = currentMonth === 11 ? 1 : currentMonth + 2;
+        var y2 = currentMonth === 11 ? currentYear + 1 : currentYear;
+        dateStr = y2 + '-' + String(m2).padStart(2,'0') + '-' + String(dayNum).padStart(2,'0'); isOther = true;
+      } else {
+        dayNum = i - startDow + 1;
+        dateStr = currentYear + '-' + String(currentMonth+1).padStart(2,'0') + '-' + String(dayNum).padStart(2,'0');
+      }
+      if (isOther) cell.classList.add('other-month');
+      if (dateStr === todayStr && !isOther) cell.classList.add('today');
+      var numDiv = document.createElement('div'); numDiv.className = 'cal-day-num'; numDiv.textContent = dayNum;
+      cell.appendChild(numDiv);
+      var dayEvs = events.filter(function(e){ return e.date === dateStr; });
+      dayEvs.slice(0,3).forEach(function(ev){
+        var el = document.createElement('div'); el.className = 'cal-event';
+        el.textContent = ev.start_time ? ev.start_time.slice(0,5) + ' ' + ev.title : ev.title;
+        el.style.background = (ev.color || '#c0392b') + '25';
+        el.style.color = ev.color || '#c0392b';
+        el.onclick = function(e){ e.stopPropagation(); };
+        cell.appendChild(el);
+      });
+      if (dayEvs.length > 3) {
+        var more = document.createElement('div'); more.className = 'cal-more';
+        more.textContent = '+' + (dayEvs.length - 3) + ' más'; cell.appendChild(more);
+      }
+      (function(ds){ cell.addEventListener('click', function(){ openNewEventModal(ds); }); })(dateStr);
+      grid.appendChild(cell);
+    }
+  }
+
+  /* ── Modal ── */
+  function renderSwatches() {
+    var wrap = document.getElementById('color-swatches'); wrap.innerHTML = '';
+    COLORS.forEach(function(col){
+      var s = document.createElement('div');
+      s.className = 'color-swatch' + (col.hex === selectedColor ? ' selected' : '');
+      s.style.background = col.hex; s.title = col.name;
+      s.onclick = function(){
+        selectedColor = col.hex;
+        wrap.querySelectorAll('.color-swatch').forEach(function(el){ el.classList.remove('selected'); });
+        s.classList.add('selected');
+      };
+      wrap.appendChild(s);
+    });
+  }
+
+  function openNewEventModal(dateStr) {
+    selectedColor = COLORS[0].hex;
+    document.getElementById('ev-title').value = '';
+    document.getElementById('ev-desc').value  = '';
+    document.getElementById('ev-date').value  = dateStr || '';
+    document.getElementById('ev-start').value = '';
+    document.getElementById('ev-end').value   = '';
+    renderSwatches();
+    document.getElementById('event-modal').classList.add('open');
+    setTimeout(function(){ document.getElementById('ev-title').focus(); }, 60);
+  }
+
+  function closeModal() { document.getElementById('event-modal').classList.remove('open'); }
+
+  async function saveEvent() {
+    var title = document.getElementById('ev-title').value.trim();
+    var date  = document.getElementById('ev-date').value;
+    if (!title) { showToast('El títol és obligatori'); return; }
+    if (!date)  { showToast('La data és obligatòria'); return; }
+    var btn = document.getElementById('save-btn');
+    btn.disabled = true; btn.textContent = 'Guardant...';
+    try {
+      const { data, error } = await supabaseClient.from(EVENTS_TABLE).insert([{
+        title: title,
+        description: document.getElementById('ev-desc').value.trim() || null,
+        date: date,
+        start_time: document.getElementById('ev-start').value || null,
+        end_time:   document.getElementById('ev-end').value   || null,
+        color: selectedColor
+      }]);
+      if (error) throw error;
+      await loadEvents();
+      closeModal();
+      showToast('Esdeveniment guardat correctament');
+    } catch(e) {
+      showToast('Error al guardar: ' + e.message);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Guardar esdeveniment';
+    }
+  }
+
+  function showToast(msg) {
+    var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2800);
+  }
+
+  document.getElementById('event-modal').addEventListener('click', function(e){ if (e.target === this) closeModal(); });
+
+  /* ── Init ── */
+  renderLogos();
+  renderCalendar();
+</script>
+</body>
+</html>
   .nav-links { display: flex; gap: 4px; }
   .nav-link {
     padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 400;
