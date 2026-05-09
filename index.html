@@ -298,9 +298,14 @@
 
   /* ── Logos ── */
   function renderLogos() {
-    const img = (cls) => LOGO_URL
-      ? '<img class="' + cls + '" src="' + LOGO_URL + '" alt="Logo" onerror="this.outerHTML=\'<div class=&quot;' + cls.replace('img','fallback') + '&quot;>F</div>\'" />'
-      : '<div class="' + cls.replace('img','fallback') + '">F</div>';
+    const img = (cls) => {
+      if (LOGO_URL) {
+        const fallbackCls = cls.replace('img', 'fallback');
+        return `<img class="${cls}" src="${LOGO_URL}" alt="Logo" onerror="this.outerHTML='<div class=\"${fallbackCls}\">F</div>'" />`;
+      } else {
+        return `<div class="${cls.replace('img','fallback')}">F</div>`;
+      }
+    };
     document.getElementById('login-logo-wrap').innerHTML = img('login-logo-img');
     document.getElementById('nav-logo-wrap').innerHTML   = img('nav-logo-img');
     document.getElementById('hero-logo-wrap').innerHTML  = img('hero-logo-img');
@@ -309,9 +314,11 @@
   /* ── Navegación ── */
   function navHome() { showPage('home', 'nav-inicio'); }
 
-  function navCalendar() {
-    supabase.auth.getSession().then(function(res) {
+  async function navCalendar() {
+    try {
+      const res = await supabase.auth.getSession();
       if (res.data.session) {
+        await loadEvents();
         showPage('calendar', 'nav-cal');
       } else {
         document.getElementById('login-overlay').classList.add('visible');
@@ -320,7 +327,10 @@
         document.getElementById('login-error').textContent = '';
         setTimeout(function(){ document.getElementById('login-email').focus(); }, 60);
       }
-    });
+    } catch(e) {
+      console.error('Error al verificar sesión:', e);
+      document.getElementById('login-overlay').classList.add('visible');
+    }
   }
 
   function cancelLogin() {
